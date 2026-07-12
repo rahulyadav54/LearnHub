@@ -153,16 +153,28 @@ export async function saveContentItem(id: string | null, data: {
 }) {
   const supabase = await verifyAdmin()
   
+  // Automatically generate URL-friendly slug from title
+  const slug = data.title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '')
+
+  const payload = {
+    ...data,
+    slug
+  }
+  
   if (id) {
     const { error } = await supabase
       .from('content_items')
-      .update(data)
+      .update(payload)
       .eq('id', id)
     if (error) throw error
   } else {
     const { error } = await supabase
       .from('content_items')
-      .insert(data)
+      .insert(payload)
     if (error) throw error
   }
 
