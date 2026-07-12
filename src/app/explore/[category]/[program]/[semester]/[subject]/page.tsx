@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-const baseUrl = 'https://learnhub.com.np'
+const baseUrl = 'https://www.hamrolearning.com'
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string, program: string, semester: string, subject: string }> }): Promise<Metadata> {
   const resolvedParams = await params

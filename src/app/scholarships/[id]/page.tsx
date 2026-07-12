@@ -23,7 +23,7 @@ export async function generateMetadata(
 
   if (!data) return { title: 'Scholarship Not Found' }
 
-  const baseUrl = 'https://learnhub.com.np'
+  const baseUrl = 'https://www.hamrolearning.com'
 
   return {
     title: `${data.title} | HamroLearning Scholarships Nepal`,

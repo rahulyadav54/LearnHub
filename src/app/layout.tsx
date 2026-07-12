@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hamrolearning.com'),
   title: {
     default: "HamroLearning Nepal | AI-Powered Education Platform for SEE, +2, Bachelors & Loksewa",
     template: "%s | HamroLearning Nepal"
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_NP",
-    url: "https://learnhub.com.np",
+    url: "https://www.hamrolearning.com",
     siteName: "HamroLearning Nepal",
     title: "HamroLearning Nepal | AI-Powered Education for SEE, +2, Bachelors & Loksewa",
     description: "Nepal's largest digital education platform. Get free study notes, question papers, mock tests, AI Tutor, scholarships, and career guidance for all Nepali students.",
@@ -102,8 +102,8 @@ export default function RootLayout({
     '@type': 'Organization',
     name: 'HamroLearning Nepal',
     description: "Nepal's most modern AI-powered education platform for SEE, +2, Bachelors, Masters, and Loksewa aspirants.",
-    url: 'https://learnhub.com.np',
-    logo: 'https://learnhub.com.np/logo.png',
+    url: 'https://www.hamrolearning.com',
+    logo: 'https://www.hamrolearning.com/logo.png',
     foundingDate: '2024',
     contactPoint: {
       '@type': 'ContactPoint',

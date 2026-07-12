@@ -26,7 +26,7 @@ export async function generateMetadata(
 
   if (!blog) return { title: 'Not Found' }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hamrolearning.com'
 
   return {
     title: blog.seo_title || `${blog.title} | HamroLearning Blog`,

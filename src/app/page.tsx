@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'HamroLearning Nepal | #1 Education Platform for Nepali Students',
     description: 'Free study notes, question papers, mock tests, AI Tutor, scholarships, and career guidance for SEE, +2, Bachelors, and Loksewa aspirants across Nepal.',
-    url: 'https://learnhub.com.np',
+    url: 'https://www.hamrolearning.com',
     siteName: 'HamroLearning Nepal',
     images: [
       {
@@ -43,11 +43,11 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'HamroLearning Nepal',
-  url: 'https://learnhub.com.np',
+  url: 'https://www.hamrolearning.com',
   description: "Nepal's most modern AI-powered education platform for SEE, +2, Bachelors, and Loksewa aspirants.",
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://learnhub.com.np/search?q={search_term_string}',
+    target: 'https://www.hamrolearning.com/search?q={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 }

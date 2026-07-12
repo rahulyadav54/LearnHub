@@ -16,8 +16,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://learnhub.com.np" },
-    { "@type": "ListItem", position: 2, name: "Terms of Service", item: "https://learnhub.com.np/terms-of-service" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.hamrolearning.com" },
+    { "@type": "ListItem", position: 2, name: "Terms of Service", item: "https://www.hamrolearning.com/terms-of-service" },
   ],
 }
 

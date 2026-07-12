@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   }
 }
 
-const baseUrl = 'https://learnhub.com.np'
+const baseUrl = 'https://www.hamrolearning.com'
 
 export default async function ProgramPage({ params }: { params: Promise<{ category: string, program: string }> }) {
   const resolvedParams = await params

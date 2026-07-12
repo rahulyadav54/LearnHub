@@ -29,8 +29,8 @@ export default async function ExplorePage({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://learnhub.com.np' },
-      { '@type': 'ListItem', position: 2, name: 'Explore', item: 'https://learnhub.com.np/explore' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.hamrolearning.com' },
+      { '@type': 'ListItem', position: 2, name: 'Explore', item: 'https://www.hamrolearning.com/explore' },
     ],
   }
 

@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hamrolearning.com'
 
   // 1. Static Routes
   const routes = [

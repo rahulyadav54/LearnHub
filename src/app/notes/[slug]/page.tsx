@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { data } = await supabase.from('content_items').select('title, description, created_at, slug, author').eq('slug', resolvedParams.slug).single()
   
   if (!data) return { title: 'Note Not Found' }
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hamrolearning.com'
 
   return {
     title: `${data.title} | HamroLearning Notes`,
@@ -83,7 +83,7 @@ export default async function NoteReadingPage({ params }: { params: Promise<{ sl
     .limit(3)
 
   // JSON-LD Schema
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hamrolearning.com'
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -100,7 +100,7 @@ export default async function NoteReadingPage({ params }: { params: Promise<{ sl
       name: 'HamroLearning Nepal',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://learnhub.com.np/logo.png',
+        url: 'https://www.hamrolearning.com/logo.png',
       },
     },
     mainEntityOfPage: {
