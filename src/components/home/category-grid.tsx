@@ -61,15 +61,15 @@ export function CategoryGrid({ categories }: { categories: Category[] }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-12 text-center"
         >
-          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-2">Browse by Subject</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">
-            Explore by Category
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#0f172a] dark:text-white">
+            Explore Top Categories
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl">
-            Choose your academic level or field and dive into a structured library of notes, papers, and resources.
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-medium">
+            Find materials for your class and university
           </p>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div

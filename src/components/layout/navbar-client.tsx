@@ -22,17 +22,22 @@ import {
   Newspaper,
   BookOpen,
   Home,
+  ChevronDown,
+  Search,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { User } from "@supabase/supabase-js"
 import { useState } from "react"
+import Image from "next/image"
 
 const navLinks = [
-  { label: "Explore", href: "/explore", icon: GraduationCap },
-  { label: "Mock Tests", href: "/mock-tests", icon: FlaskConical },
+  { label: "Home", href: "/", icon: Home },
+  { label: "Study Materials", href: "/explore", icon: BookOpen, hasDropdown: true },
   { label: "AI Tutor", href: "/tutor", icon: Brain },
+  { label: "Mock Tests", href: "/mock-tests", icon: FlaskConical },
   { label: "Scholarships", href: "/scholarships", icon: Award },
-  { label: "Blogs", href: "/blogs", icon: Newspaper },
+  { label: "Blog", href: "/blogs", icon: Newspaper },
+  { label: "More", href: "#", icon: ChevronDown, hasDropdown: true },
 ]
 
 export function NavbarClient({ user }: { user: User | null }) {
@@ -40,49 +45,59 @@ export function NavbarClient({ user }: { user: User | null }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container mx-auto flex h-16 items-center px-4 md:px-6 max-w-7xl">
-        {/* Logo */}
-        <Link href="/" className="mr-6 flex items-center gap-2 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-lg shadow-primary/30">
-            <BookOpen className="w-4 h-4 text-white" />
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-white dark:bg-background">
+      <div className="container mx-auto flex h-20 items-center px-4 md:px-6 max-w-7xl justify-between">
+        {/* Logo and Brand */}
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Image 
+            src="/logo.png" 
+            alt="Hamro Learning Logo" 
+            width={48} 
+            height={48} 
+            className="object-contain"
+            unoptimized
+          />
+          <div className="text-xl font-bold flex items-center tracking-tight">
+            <span className="text-[#0f172a] dark:text-white">Hamro</span>
+            <span className="text-[#2563eb] dark:text-[#3b82f6] ml-1">Learning</span>
           </div>
-          <span className="font-bold text-lg hidden sm:block" style={{ fontFamily: "var(--font-heading)" }}>
-            HamroLearning
-          </span>
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-1 mr-4">
+        <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || pathname.startsWith(link.href + "/")
+            const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
             return (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200",
-                  isActive
-                    ? "bg-primary/10 text-primary dark:bg-primary/15"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white",
+                  isActive && "text-[#2563eb] dark:text-white"
                 )}
               >
                 {link.label}
+                {link.hasDropdown && <ChevronDown className="w-4 h-4 opacity-70" />}
+                {isActive && link.href === "/" && (
+                  <span className="absolute bottom-[-18px] left-4 right-4 h-[3px] bg-[#2563eb] rounded-full" />
+                )}
               </Link>
             )
           })}
         </nav>
 
-        {/* Search + Actions */}
-        <div className="flex flex-1 items-center justify-end gap-2">
-          <div className="hidden md:block w-full max-w-xs lg:max-w-sm">
-            <GlobalSearch />
+        {/* Right side: Search, Theme, Auth */}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:block">
+            <button className="p-2 rounded-full hover:bg-muted text-[#475569] dark:text-[#94a3b8] transition-colors">
+              <Search className="w-5 h-5" />
+            </button>
           </div>
 
           <ModeToggle />
 
           {user ? (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <NotificationBell userId={user.id} />
               <Link href="/dashboard">
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -91,15 +106,20 @@ export function NavbarClient({ user }: { user: User | null }) {
               </Link>
             </div>
           ) : (
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-3">
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-sm font-medium">
-                  Log In
+                <Button 
+                  variant="outline" 
+                  className="rounded-xl border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5 px-6 font-semibold h-11"
+                >
+                  Login
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="sm" className="text-sm font-medium shadow-md shadow-primary/25">
-                  Get Started
+                <Button 
+                  className="rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 font-semibold shadow-md shadow-blue-500/20 h-11"
+                >
+                  Sign Up
                 </Button>
               </Link>
             </div>
