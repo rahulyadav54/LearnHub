@@ -5,9 +5,7 @@ const config: CapacitorConfig = {
   appName: 'HamroLearning',
   webDir: 'out', // Next.js typically exports to 'out', though we are using live server
   server: {
-    // In production, this should be the live site URL e.g., 'https://learnhub.com.np'
-    // For development, it points to local dev server
-    url: process.env.CAPACITOR_SERVER_URL || 'http://10.0.2.2:3000',
+    url: process.env.CAPACITOR_SERVER_URL || 'https://learn-hub-rahuls-projects-f7f3b70c.vercel.app',
     cleartext: true,
   },
   plugins: {
