@@ -122,15 +122,22 @@ export function HeroSection() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="relative w-full max-w-[480px] aspect-square flex justify-center items-center"
+              whileHover={{ scale: 1.03, rotate: 0.5 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 150, 
+                damping: 15,
+                opacity: { duration: 0.8, delay: 0.1 },
+                scale: { duration: 0.3 }
+              }}
+              className="relative w-full max-w-[480px] aspect-square flex justify-center items-center cursor-pointer"
             >
               <Image
                 src="/logo.png"
                 alt="Hamro Learning Illustration"
                 width={480}
                 height={480}
-                className="object-contain"
+                className="object-contain animate-float drop-shadow-xl"
                 priority
                 unoptimized
               />
