@@ -116,7 +116,7 @@ export default async function AdminDashboard() {
         <Card className="border border-slate-200/80 dark:border-slate-800/80 rounded-2xl">
           <CardHeader>
             <CardTitle>System Information</CardTitle>
-            <CardDescription>Server & Environment parameters.</p>
+            <CardDescription>Server & Environment parameters.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
             <div className="flex justify-between border-b pb-2">
