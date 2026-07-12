@@ -21,7 +21,7 @@ export function ScholarshipBookmarkButton({
     startTransition(async () => {
       try {
         await toggleScholarshipBookmark(scholarshipId)
-      } catch (err) {
+      } catch {
         // Revert on error
         setBookmarked(bookmarked)
       }
