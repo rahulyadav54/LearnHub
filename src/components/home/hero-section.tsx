@@ -83,17 +83,18 @@ export function HeroSection() {
               </p>
 
               {/* Input Search Box */}
-              <div className="relative flex items-center bg-white dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#334155] p-2 rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-none max-w-xl mb-8 group hover:border-[#cbd5e1] transition-all">
+              <form action="/search" method="GET" className="relative flex items-center bg-white dark:bg-[#1e293b] border border-[#e2e8f0] dark:border-[#334155] p-2 rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-none max-w-xl mb-8 group hover:border-[#cbd5e1] transition-all w-full">
                 <Search className="w-6 h-6 text-[#94a3b8] ml-3 shrink-0" />
                 <input
                   type="text"
+                  name="q"
                   placeholder="Search notes, books, question papers..."
                   className="w-full bg-transparent px-3 py-3 outline-none text-[#0f172a] dark:text-white text-base placeholder:text-[#94a3b8]"
                 />
-                <button className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 md:px-8 py-3 rounded-xl md:rounded-2xl font-bold transition-all shadow-md shadow-blue-500/20 shrink-0">
+                <button type="submit" className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 md:px-8 py-3 rounded-xl md:rounded-2xl font-bold transition-all shadow-md shadow-blue-500/20 shrink-0 cursor-pointer">
                   Search
                 </button>
-              </div>
+              </form>
 
               {/* Trusted Students Stack */}
               <div className="flex items-center gap-4">
