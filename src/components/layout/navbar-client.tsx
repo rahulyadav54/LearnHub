@@ -30,6 +30,7 @@ import {
   Home,
   ChevronDown,
   Search,
+  PlayCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { User } from "@supabase/supabase-js"
@@ -38,12 +39,12 @@ import Image from "next/image"
 
 const navLinks = [
   { label: "Home", href: "/", icon: Home },
+  { label: "Courses", href: "/courses", icon: PlayCircle },
   { label: "Study Materials", href: "/explore", icon: BookOpen, hasDropdown: true },
   { label: "AI Tutor", href: "/tutor", icon: Brain },
   { label: "Mock Tests", href: "/mock-tests", icon: FlaskConical },
   { label: "Scholarships", href: "/scholarships", icon: Award },
   { label: "Blog", href: "/blogs", icon: Newspaper },
-  { label: "More", href: "#", icon: ChevronDown, hasDropdown: true },
 ]
 
 const dropdownItems: Record<string, { label: string; href: string }[]> = {

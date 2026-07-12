@@ -10,6 +10,14 @@ DELETE FROM public.scholarships WHERE id IN (
   '33333333-3333-3333-3333-333333333333',
   'dbdbdbdb-dbdb-dbdb-dbdb-dbdbdbdbdbdb'
 );
+DELETE FROM public.lessons WHERE course_id IN (
+  '55555555-c0c0-c0c0-c0c0-555555555555',
+  '55555555-c1c1-c1c1-c1c1-555555555555'
+);
+DELETE FROM public.courses WHERE id IN (
+  '55555555-c0c0-c0c0-c0c0-555555555555',
+  '55555555-c1c1-c1c1-c1c1-555555555555'
+);
 DELETE FROM public.blogs WHERE id IN (
   '44444444-4444-4444-4444-444444444444',
   '55555555-5555-5555-5555-555555555555',
@@ -117,3 +125,15 @@ INSERT INTO public.blogs (id, title, slug, excerpt, content, cover_image_url, au
 ('55555555-5555-5555-5555-555555555555', 'Golden Jubilee Scholarship Scheme by Indian Embassy: How to Apply', 'golden-jubilee-scholarship-guide', 'A comprehensive guide on documents, eligibility, and the online application process.', E'# Golden Jubilee Scholarship Guide\n\nThe Golden Jubilee Scholarship Scheme is one of the most popular scholarships in Nepal, supporting students through their undergraduate journey.\n\n## Eligibility Criteria\n- Must be a Nepalese citizen.\n- Enrolled in the first year of an undergraduate course in Nepal.\n- Age should be between 17 and 22 years.\n- At least 70% aggregate marks in Class 12.\n\n## Required Documents\nMake sure to prepare digital copies of:\n1. Nepalese Citizenship Card.\n2. Transcript and Character Certificate of Class 12.\n3. Recommendation letter from the College Principal.\n4. Income certificate showing family earnings below NPR 2,00,000 annually.', 'https://picsum.photos/id/20/800/450', NULL, TRUE),
 ('66666666-6666-6666-6666-666666666666', 'Introduction to B.Sc. CSIT Course in Nepal', 'intro-to-bsc-csit-nepal', 'An overview of curriculum, career prospects, and entrance details for B.Sc. CSIT under TU.', E'# What is B.Sc. CSIT?\n\nB.Sc. CSIT is a 4-year, 8-semester course offered by Tribhuvan University, Nepal. It merges traditional computer science theory with modern IT practices.\n\n## Career Scope\nGraduates can work as:\n- Software Engineers\n- Database Administrators\n- Network Engineers\n- Data Scientists', 'https://picsum.photos/id/48/800/450', NULL, TRUE),
 ('abababab-abab-abab-abab-abababababab', 'Step-by-Step Loksewa Exam Preparation for Beginners', 'loksewa-preparation-for-beginners', 'How to start reading General Knowledge, History, and IQ items for Nepalese civil service exams.', E'# Loksewa Preparation Roadmap\n\nPassing the Loksewa (Public Service Commission) exam requires consistent practice and smart reading strategies.\n\n## 1. Focus on GK and IQ first\nFor almost all positions, the first paper consists of General Knowledge and IQ test. Build a solid base by reading local geographical and historical books.\n\n## 2. Read Nepali Newspapers Daily\nKeep yourself updated with current national events, cabinet decisions, and international developments.\n\n## 3. Practice Mock Tests\nPractice solving 50 GK/IQ questions daily within the set time limits to improve accuracy and speed.', 'https://picsum.photos/id/64/800/450', NULL, TRUE);
+
+-- 10. Insert Courses
+INSERT INTO public.courses (id, title, slug, description, cover_image_url, category_id, difficulty, estimated_hours) VALUES
+('55555555-c0c0-c0c0-c0c0-555555555555', 'Python Programming for Beginners', 'python-beginners', 'Learn the basics of Python programming from scratch. Perfect for students and professionals looking to enter coding.', 'https://picsum.photos/id/1/400/225', '10000000-0000-0000-0000-000000000000', 'Beginner', 4),
+('55555555-c1c1-c1c1-c1c1-555555555555', 'Full-Stack JavaScript Web Development', 'js-web-dev', 'Master modern web development with HTML, CSS, JavaScript, React, and Node.js. Build real world applications.', 'https://picsum.photos/id/2/400/225', '10000000-0000-0000-0000-000000000000', 'Intermediate', 8);
+
+-- 11. Insert Lessons
+INSERT INTO public.lessons (id, course_id, title, video_url, order_index, description, duration_minutes) VALUES
+('66666666-l1l1-l1l1-l1l1-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Introduction to Python & Installation', 'kqtD5dpn9C8', 1, 'In this lesson, we will introduce Python programming language, explain why it is so popular, and show you step by step how to install Python and VS Code editor on Windows.', 12),
+('66666666-l2l2-l2l2-l2l2-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Python Variables, Data Types & Operations', 'mDKM-AlfBJs', 2, 'Learn about variables, comments, basic data types (integers, floats, strings, booleans), and arithmetic operations in Python.', 15),
+('66666666-l3l3-l3l3-l3l3-666666666666', '55555555-c1c1-c1c1-c1c1-555555555555', 'HTML Crash Course for Beginners', 'kUMe1FH4INY', 1, 'An introduction to web structure. Learn about HTML tags, attributes, lists, tables, and building your very first web page skeleton.', 22);
+
