@@ -60,7 +60,8 @@ export default async function SingleScholarshipPage({
   const isBookmarked = await checkScholarshipBookmark(scholarship.id)
   
   const deadline = scholarship.deadline ? new Date(scholarship.deadline) : null
-  const isExpired = deadline ? deadline < new Date() : false
+  const isValidDeadline = deadline && !isNaN(deadline.getTime())
+  const isExpired = isValidDeadline ? deadline < new Date() : false
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -149,7 +150,7 @@ export default async function SingleScholarshipPage({
                 </div>
               )}
 
-              {deadline && (
+              {isValidDeadline && (
                 <div>
                   <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-1">Application Deadline</div>
                   <div className="flex items-center gap-2 text-lg font-bold">

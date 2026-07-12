@@ -122,7 +122,8 @@ export default async function ScholarshipsPage({
             scholarships.map((scholarship: any) => {
               const isBookmarked = bookmarkedIds.has(scholarship.id)
               const deadline = scholarship.deadline ? new Date(scholarship.deadline) : null
-              const isExpired = deadline ? deadline < new Date() : false
+              const isValidDeadline = deadline && !isNaN(deadline.getTime())
+              const isExpired = isValidDeadline ? deadline < new Date() : false
 
               return (
                 <Link key={scholarship.id} href={`/scholarships/${scholarship.id}`} className="block group">
@@ -156,7 +157,7 @@ export default async function ScholarshipsPage({
                        {scholarship.amount && (
                          <div className="font-bold text-green-600 dark:text-green-500">{scholarship.amount}</div>
                        )}
-                       {deadline && (
+                       {isValidDeadline && (
                          <div className="flex items-center gap-2 text-muted-foreground">
                            <Calendar className="w-4 h-4" /> 
                            Deadline: {deadline.toLocaleDateString()}
