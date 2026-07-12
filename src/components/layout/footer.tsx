@@ -55,7 +55,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-1 text-sm text-muted-foreground mb-6">
               <Mail className="w-3.5 h-3.5 text-primary" />
-              <span>hello@hamrolearning.com.np</span>
+              <span>support@hamrolearning.com</span>
             </div>
             {/* Social Links */}
             <div className="flex items-center gap-2">
