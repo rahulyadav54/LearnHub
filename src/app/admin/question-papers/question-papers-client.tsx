@@ -47,6 +47,41 @@ export function QuestionPapersClient({ initialPapers, subjects }: Props) {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [isUploading, setIsUploading] = useState(false)
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const { createClient } = await import('@/utils/supabase/client')
+      const supabase = createClient()
+      
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`
+      const filePath = `exams/${fileName}`
+
+      const { error } = await supabase.storage
+        .from('materials')
+        .upload(filePath, file)
+
+      if (error) throw error
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('materials')
+        .getPublicUrl(filePath)
+
+      setFileUrl(publicUrl)
+      toast.success("PDF uploaded successfully!")
+    } catch (err: any) {
+      console.error(err)
+      toast.error(err.message || "Failed to upload file")
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
   const filtered = papers.filter(p =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
     (p.subjects?.name || '').toLowerCase().includes(search.toLowerCase())
@@ -118,7 +153,7 @@ export function QuestionPapersClient({ initialPapers, subjects }: Props) {
         <div className="relative w-full sm:max-w-sm flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search papers..."
+            placeholder="Search question papers..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="pl-10 h-11 rounded-xl border-slate-200 dark:border-slate-800 bg-card focus-visible:ring-2 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 transition-all"
@@ -230,6 +265,20 @@ export function QuestionPapersClient({ initialPapers, subjects }: Props) {
                   <option key={s.id} value={s.id}>{s.name}</option>
                 ))}
               </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="font-semibold text-slate-700 dark:text-slate-300">Upload PDF File</Label>
+              <div className="flex gap-2">
+                <Input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileUpload}
+                  disabled={isUploading}
+                  className="h-11 rounded-xl cursor-pointer file:font-semibold file:text-indigo-600 file:bg-indigo-50 file:border-0 file:rounded-lg file:px-2.5 file:py-0.5 hover:file:bg-indigo-100"
+                />
+              </div>
+              {isUploading && <p className="text-xs text-indigo-500 font-bold animate-pulse">Uploading file to storage...</p>}
             </div>
 
             <div className="space-y-1.5">

@@ -73,8 +73,14 @@ export function NavbarClient({ user }: { user: User | null }) {
         {/* Left side: Logo & Brand */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <BookOpen className="w-5 h-5 text-white" />
+            <div className="relative w-9 h-9 flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Hamro Learning Logo"
+                fill
+                className="object-contain"
+                unoptimized
+              />
             </div>
             <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-350 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-heading)" }}>
               Hamro <span className="text-[#2563eb]">Learning</span>
