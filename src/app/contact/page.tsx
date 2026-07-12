@@ -1,8 +1,5 @@
-'use server'
-
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
 import Link from "next/link"
 import { ArrowLeft, Mail, MapPin, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -10,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { submitContactMessage } from "@/app/actions/contact-actions"
 
 export const metadata: Metadata = {
   title: "Contact Us | HamroLearning Nepal",
@@ -85,22 +83,7 @@ export default function ContactPage() {
                   <CardTitle className="text-2xl">Send us a Message</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <form action={async (formData) => {
-                    const supabase = await createClient()
-                    const name = formData.get('name') as string
-                    const email = formData.get('email') as string
-                    const message = formData.get('message') as string
-                    const subject = formData.get('subject') as string
-
-                    await supabase.from('contact_messages').insert({
-                      name,
-                      email,
-                      subject,
-                      message,
-                    })
-
-                    redirect('/contact?success=true')
-                  }} className="space-y-6">
+                  <form action={submitContactMessage} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name *</Label>
