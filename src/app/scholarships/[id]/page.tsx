@@ -17,15 +17,27 @@ export async function generateMetadata(
   
   const { data } = await supabase
     .from('scholarships')
-    .select('title, provider, description')
+    .select('title, provider, description, amount, deadline, scholarship_type')
     .eq('id', resolvedParams.id)
     .single()
 
-  if (!data) return { title: 'Not Found' }
+  if (!data) return { title: 'Scholarship Not Found' }
+
+  const baseUrl = 'https://learnhub.com.np'
 
   return {
-    title: `${data.title} | HamroLearning Scholarships`,
-    description: data.description,
+    title: `${data.title} | HamroLearning Scholarships Nepal`,
+    description: `${data.description?.slice(0, 200) || `Apply for ${data.title}`} Provided by ${data.provider}. ${data.scholarship_type} scholarship opportunity for Nepali students.`,
+    keywords: [`${data.provider} scholarship`, `${data.title} Nepal`, `scholarship Nepal`, `${data.scholarship_type} scholarship Nepal`, 'apply scholarship Nepal'],
+    alternates: {
+      canonical: `/scholarships/${resolvedParams.id}`,
+    },
+    openGraph: {
+      title: data.title,
+      description: data.description,
+      type: 'website',
+      url: `${baseUrl}/scholarships/${resolvedParams.id}`,
+    },
   }
 }
 

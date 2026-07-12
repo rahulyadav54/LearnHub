@@ -4,6 +4,28 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertCircle, CheckCircle2, XCircle, Clock, ArrowLeft } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: Promise<{ testId: string }> }): Promise<Metadata> {
+  const { testId } = await params
+  const supabase = await createClient()
+  const { data: test } = await supabase
+    .from('mock_tests')
+    .select('title, description, programs(name)')
+    .eq('id', testId)
+    .single()
+
+  if (!test) return { title: 'Mock Test Not Found' }
+
+  return {
+    title: `${test.title} - Mock Test | HamroLearning Nepal`,
+    description: test.description || `Take ${test.title} mock test online at HamroLearning. Practice with real exam format, timers, and get instant results.`,
+    keywords: [`${test.title} mock test`, `online mock test Nepal`, `${(test.programs as any)?.[0]?.name || test.title} exam practice`],
+    alternates: {
+      canonical: `/mock-tests/${testId}`,
+    },
+  }
+}
 
 export default async function MockTestDetailsPage({
   params

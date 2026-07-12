@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'HamroLearning Nepal',
     short_name: 'HamroLearning',
-    description: 'Nepal&apos;s largest digital education platform.',
+    description: "Nepal&apos;s largest digital education platform.",
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
@@ -14,13 +14,11 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/icon-192x192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'any maskable',
       },
       {
         src: '/icon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
-        purpose: 'any maskable',
       },
     ],
   }

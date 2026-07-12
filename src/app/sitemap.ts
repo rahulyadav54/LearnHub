@@ -14,13 +14,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/mock-tests',
     '/blogs',
     '/scholarships',
+    '/about',
+    '/contact',
+    '/privacy-policy',
+    '/terms-of-service',
     '/login',
     '/signup'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
-    priority: route === '' ? 1 : 0.8,
+    priority: ['', '/about', '/contact', '/explore', '/mock-tests', '/practice', '/blogs', '/scholarships', '/login', '/signup', '/privacy-policy', '/terms-of-service'][['', '/about', '/contact', '/explore', '/mock-tests', '/practice', '/blogs', '/scholarships', '/login', '/signup', '/privacy-policy', '/terms-of-service'].indexOf(route)] === '' ? 1 : 0.8,
   }))
 
   if (!supabaseUrl || !supabaseKey) {
@@ -44,8 +48,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 3. Dynamic Notes
   const { data: notes } = await supabase
-    .from('notes')
+    .from('content_items')
     .select('slug, updated_at')
+    .eq('content_type', 'note')
 
   const noteRoutes = (notes || []).map((note) => ({
     url: `${baseUrl}/notes/${note.slug}`,

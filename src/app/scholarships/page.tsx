@@ -1,4 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Scholarships Portal | HamroLearning Nepal',
+  description: 'Discover scholarships for Nepali students. Browse government scholarships, private scholarships, and international opportunities for SEE, +2, Bachelors, Masters, TU, KU, CTEVT, and Loksewa aspirants.',
+  keywords: ['scholarships Nepal', 'government scholarships Nepal', 'private scholarships Nepal', 'international scholarships Nepal', 'education grants Nepal', 'financial aid Nepal', 'free education Nepal', 'scholarship for SEE Nepal', 'scholarship for +2 Nepal', 'scholarship for Bachelor Nepal', 'TU scholarships', 'KU scholarships'],
+  openGraph: {
+    title: 'Scholarships Portal | HamroLearning Nepal',
+    description: 'Find government and international scholarships for Nepali students. Get financial aid for SEE, +2, Bachelors, Masters, and Loksewa preparation.',
+  },
+  alternates: {
+    canonical: '/scholarships',
+  },
+}
+
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'

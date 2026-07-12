@@ -1,8 +1,22 @@
+import { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Trophy, BrainCircuit, Target, Clock, Activity } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'MCQ Practice & Interactive Quizzes | HamroLearning Nepal',
+  description: 'Practice thousands of MCQs for SEE, +2, Bachelors, TU, KU, CTEVT, and Loksewa. Track your progress, find weak topics, and compete on the global leaderboard with free online quizzes.',
+  keywords: ['MCQ practice Nepal', 'online quiz Nepal', 'interactive quizzes Nepal', 'SEE MCQs', '+2 MCQs Nepal', 'Bachelors MCQs Nepal', 'Loksewa MCQs', 'quiz competition Nepal', 'practice questions Nepal'],
+  openGraph: {
+    title: 'MCQ Practice & Interactive Quizzes | HamroLearning Nepal',
+    description: 'Practice free MCQs and interactive quizzes for SEE, +2, Bachelors, TU, KU, CTEVT, and Loksewa. Track progress and compete on leaderboard.',
+  },
+  alternates: {
+    canonical: '/practice',
+  },
+}
 
 export default async function PracticeHub() {
   const supabase = await createClient()

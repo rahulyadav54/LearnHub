@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Suspense } from 'react'
+import { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import { HeroSection } from '@/components/home/hero-section'
 import { StatsBar } from '@/components/home/stats-bar'
@@ -9,6 +10,47 @@ import { ContentCarousel } from '@/components/home/content-carousel'
 import { Testimonials } from '@/components/home/testimonials'
 import { CTASection } from '@/components/home/cta-section'
 import { Skeleton } from '@/components/ui/skeleton'
+
+export const metadata: Metadata = {
+  title: 'Home | HamroLearning Nepal',
+  description: 'Discover Nepal\'s #1 education platform for SEE, +2, Bachelors, and Loksewa. Access free study notes, question papers, mock tests, AI Tutor, scholarships, and MCQ practice — all in one place.',
+  keywords: ['free study notes Nepal', 'SEE preparation Nepal', '+2 study materials Nepal', 'mock tests Nepal', 'AI tutor Nepal', 'scholarships Nepal', 'question papers Nepal', 'MCQ practice Nepal', 'Loksewa preparation Nepal', 'Bachelor notes Nepal', 'online learning Nepal'],
+  openGraph: {
+    title: 'HamroLearning Nepal | #1 Education Platform for Nepali Students',
+    description: 'Free study notes, question papers, mock tests, AI Tutor, scholarships, and career guidance for SEE, +2, Bachelors, and Loksewa aspirants across Nepal.',
+    url: 'https://learnhub.com.np',
+    siteName: 'HamroLearning Nepal',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'HamroLearning Nepal - AI-Powered Education Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HamroLearning Nepal | AI-Powered Education Platform',
+    description: 'Nepal\'s most modern education platform for SEE, +2, Bachelors, and Loksewa aspirants. Free study materials, mock tests, and AI Tutor.',
+  },
+  alternates: {
+    canonical: '/',
+  },
+}
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'HamroLearning Nepal',
+  url: 'https://learnhub.com.np',
+  description: "Nepal's most modern AI-powered education platform for SEE, +2, Bachelors, and Loksewa aspirants.",
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://learnhub.com.np/search?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 async function CategoriesData() {
   const supabase = await createClient()
@@ -56,36 +98,42 @@ function SectionSkeleton({ cols = 4 }: { cols?: number }) {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. Hero */}
-      <HeroSection />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <div className="flex flex-col min-h-screen">
+        {/* 1. Hero */}
+        <HeroSection />
 
-      {/* 2. Stats Bar */}
-      <StatsBar />
+        {/* 2. Stats Bar */}
+        <StatsBar />
 
-      {/* 3. Category Grid */}
-      <Suspense fallback={<SectionSkeleton cols={4} />}>
-        <CategoriesData />
-      </Suspense>
+        {/* 3. Category Grid */}
+        <Suspense fallback={<SectionSkeleton cols={4} />}>
+          <CategoriesData />
+        </Suspense>
 
-      {/* 4. Featured Notes */}
-      <Suspense fallback={<SectionSkeleton cols={4} />}>
-        <FeaturedNotesData />
-      </Suspense>
+        {/* 4. Featured Notes */}
+        <Suspense fallback={<SectionSkeleton cols={4} />}>
+          <FeaturedNotesData />
+        </Suspense>
 
-      {/* 5. AI Banner */}
-      <AIBanner />
+        {/* 5. AI Banner */}
+        <AIBanner />
 
-      {/* 6. Past Papers */}
-      <Suspense fallback={<SectionSkeleton cols={4} />}>
-        <PastPapersData />
-      </Suspense>
+        {/* 6. Past Papers */}
+        <Suspense fallback={<SectionSkeleton cols={4} />}>
+          <PastPapersData />
+        </Suspense>
 
-      {/* 7. Testimonials */}
-      <Testimonials />
+        {/* 7. Testimonials */}
+        <Testimonials />
 
-      {/* 8. CTA Section */}
-      <CTASection />
-    </div>
+        {/* 8. CTA Section */}
+        <CTASection />
+      </div>
+    </>
   )
 }

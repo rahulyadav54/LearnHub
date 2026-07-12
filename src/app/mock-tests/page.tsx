@@ -1,8 +1,22 @@
+import { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { FileText, Clock, AlertCircle } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Mock Tests & Online Practice Exams | HamroLearning Nepal',
+  description: 'Take free online mock tests and practice exams for SEE, +2, Bachelors, TU, KU, CTEVT, and Loksewa. Simulate real exam environment with timers, negative marking, and competitive ranking.',
+  keywords: ['mock tests Nepal', 'online practice exams Nepal', 'SEE mock test', '+2 mock test Nepal', 'Loksewa mock test', 'entrance exam practice', 'online quiz Nepal', 'test series Nepal', 'competitive exam practice'],
+  openGraph: {
+    title: 'Mock Tests & Practice Exams | HamroLearning Nepal',
+    description: 'Practice with free online mock tests for SEE, +2, Bachelors, TU, KU, CTEVT, and Loksewa exams. Get instant results and competitive rankings.',
+  },
+  alternates: {
+    canonical: '/mock-tests',
+  },
+}
 
 export default async function MockTestsHub() {
   const supabase = await createClient()

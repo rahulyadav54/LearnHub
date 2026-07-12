@@ -1,8 +1,31 @@
+import type { Metadata } from 'next'
 import { globalSearch } from '@/app/actions/search-actions'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { FileText, GraduationCap, Building2, HelpCircle, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ q?: string }> }): Promise<Metadata> {
+  const params = await searchParams
+  const query = params.q || ''
+
+  if (query) {
+    return {
+      title: `Search Results for "${query}" | HamroLearning Nepal`,
+      description: `Search results for "${query}" on HamroLearning Nepal. Find study notes, question papers, blogs, and academic resources.`,
+      robots: { index: false, follow: true },
+    }
+  }
+
+  return {
+    title: 'Search Study Materials | HamroLearning Nepal',
+    description: 'Search thousands of free study notes, question papers, mock tests, scholarships, and blogs for Nepali students on HamroLearning.',
+    keywords: ['search notes Nepal', 'search question papers Nepal', 'find study materials Nepal', 'Nepali education search'],
+    alternates: {
+      canonical: '/search',
+    },
+  }
+}
 
 export default async function SearchResultsPage({
   searchParams,

@@ -83,16 +83,30 @@ export default async function NoteReadingPage({ params }: { params: Promise<{ sl
     .limit(3)
 
   // JSON-LD Schema
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: note.title,
+    description: note.description || 'Study material',
     datePublished: note.created_at,
     dateModified: note.updated_at || note.created_at,
     author: [{
       '@type': 'Person',
       name: (note.profiles as any)?.full_name || 'Anonymous Author',
-    }]
+    }],
+    publisher: {
+      '@type': 'Organization',
+      name: 'HamroLearning Nepal',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://learnhub.com.np/logo.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/notes/${note.slug}`,
+    },
   }
 
   return (

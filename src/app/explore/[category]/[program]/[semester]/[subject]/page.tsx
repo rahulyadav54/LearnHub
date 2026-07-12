@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -6,6 +6,29 @@ import { ChevronRight, FileText, BookOpen, BrainCircuit, Download } from 'lucide
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+
+const baseUrl = 'https://learnhub.com.np'
+
+export async function generateMetadata({ params }: { params: Promise<{ category: string, program: string, semester: string, subject: string }> }): Promise<Metadata> {
+  const resolvedParams = await params
+  const supabase = await createClient()
+  const { data: subject } = await supabase
+    .from('subjects')
+    .select('name, description, programs(name), semesters(name)')
+    .eq('slug', resolvedParams.subject)
+    .single()
+
+  if (!subject) return { title: 'Subject Not Found' }
+
+  return {
+    title: `${subject.name} - Study Notes, Past Papers & MCQs | HamroLearning Nepal`,
+    description: subject.description || `Comprehensive study hub for ${subject.name}. Access free study notes, past question papers, recommended books, and interactive MCQs for Nepali students.`,
+    keywords: [`${subject.name} notes`, `${subject.name} question papers`, `${subject.name} MCQs`, `${subject.name} study materials`, `learn ${subject.name} Nepal`],
+    alternates: {
+      canonical: `/explore/${resolvedParams.category}/${resolvedParams.program}/${resolvedParams.semester}/${resolvedParams.subject}`,
+    },
+  }
+}
 
 export default async function SubjectHubPage({ 
   params 
@@ -23,6 +46,38 @@ export default async function SubjectHubPage({
 
   if (!subject) return notFound()
 
+  const programName = (subject.programs as any)?.name || ''
+  const semesterName = (subject.semesters as any)?.name || ''
+  const breadcrumbItems = [
+    { '@type': 'ListItem' as const, position: 1, name: 'Home', item: `${baseUrl}` },
+    { '@type': 'ListItem' as const, position: 2, name: 'Explore', item: `${baseUrl}/explore` },
+    { '@type': 'ListItem' as const, position: 3, name: resolvedParams.category, item: `${baseUrl}/explore/${resolvedParams.category}` },
+  ]
+  if (programName) {
+    breadcrumbItems.push({ '@type': 'ListItem' as const, position: 4, name: programName, item: `${baseUrl}/explore/${resolvedParams.category}/${resolvedParams.program}` })
+  }
+  if (semesterName) {
+    breadcrumbItems.push({ '@type': 'ListItem' as const, position: breadcrumbItems.length + 1, name: semesterName, item: `${baseUrl}/explore/${resolvedParams.category}/${resolvedParams.program}/${resolvedParams.semester}` })
+  }
+  breadcrumbItems.push({ '@type': 'ListItem' as const, position: breadcrumbItems.length + 1, name: subject.name, item: `${baseUrl}/explore/${resolvedParams.category}/${resolvedParams.program}/${resolvedParams.semester}/${resolvedParams.subject}` })
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems,
+  }
+
+  const courseSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: subject.name,
+    description: subject.description || `Study materials and resources for ${subject.name}`,
+    provider: {
+      '@type': 'Organization',
+      name: 'HamroLearning Nepal',
+    },
+  }
+
   // Fetch all related content in parallel
   const [
     { data: notes },
@@ -37,7 +92,16 @@ export default async function SubjectHubPage({
   ])
 
   return (
-    <div className="space-y-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
+      <div className="space-y-8">
       <div>
         <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-4">
           <Link href="/explore" className="hover:text-primary">Explore</Link>
@@ -195,5 +259,6 @@ export default async function SubjectHubPage({
         </TabsContent>
       </Tabs>
     </div>
+    </>
   )
 }
