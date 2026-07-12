@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bookmark, Download, History,
-  Brain, Trophy, Bell, Settings, Flame
+  Brain, Trophy, Bell, Settings, Flame, LogOut
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { User } from '@supabase/supabase-js'
+import { logout } from '@/app/actions/auth'
 
 const navItems = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -78,6 +79,14 @@ export function DashboardLayoutClient({ user, profile, children }: Props) {
               </Link>
             )
           })}
+          
+          <button
+            onClick={() => logout()}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-600 cursor-pointer mt-4"
+          >
+            <LogOut className="w-4 h-4 shrink-0 text-red-500" />
+            Log Out
+          </button>
         </nav>
 
         {/* Bottom CTA */}

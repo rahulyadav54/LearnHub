@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Settings, User } from 'lucide-react'
 import { updateProfile } from '@/app/actions/dashboard-actions'
+import { logout } from '@/app/actions/auth'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
@@ -60,6 +61,20 @@ export default async function SettingsPage() {
                 <Label>Role</Label>
                 <Input value={profile?.role || 'STUDENT'} readOnly className="bg-muted text-muted-foreground uppercase font-mono" />
               </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-red-200 dark:border-red-950/20">
+          <CardHeader>
+            <CardTitle className="text-red-500">Sign Out</CardTitle>
+            <CardDescription>Sign out of your session on this device.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form action={logout}>
+              <Button variant="destructive" type="submit" className="w-full sm:w-auto">
+                Log Out
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>
