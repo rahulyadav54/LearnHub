@@ -2,11 +2,8 @@ import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Use anon client for public API to avoid needing user context during build
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  const supabase = createClient(supabaseUrl, supabaseKey)
-
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://learnhub.com.np'
 
   // 1. Static Routes
@@ -25,6 +22,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'daily' as const,
     priority: route === '' ? 1 : 0.8,
   }))
+
+  if (!supabaseUrl || !supabaseKey) {
+    return routes
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey)
 
   // 2. Dynamic Blogs
   const { data: blogs } = await supabase
