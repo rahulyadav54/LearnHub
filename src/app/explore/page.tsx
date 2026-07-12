@@ -15,7 +15,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function ExplorePage() {
+export default async function ExplorePage({
+  searchParams
+}: {
+  searchParams: Promise<{ level?: string }> | { level?: string }
+}) {
+  const resolvedParams = await searchParams
+  const level = resolvedParams?.level || "All"
   const supabase = await createClient()
   const { data: categories } = await supabase.from('categories').select('*').order('name')
 
@@ -46,7 +52,7 @@ export default async function ExplorePage() {
           </div>
 
           <div className="space-y-6">
-            <ExploreClient categories={categories || []} />
+            <ExploreClient categories={categories || []} initialLevel={level} />
           </div>
         </div>
       </div>

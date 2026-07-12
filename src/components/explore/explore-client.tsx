@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -30,13 +30,45 @@ interface Category {
   description?: string
 }
 
-export function ExploreClient({ categories }: { categories: Category[] }) {
-  const [activeLevel, setActiveLevel] = useState("All")
+export function ExploreClient({ categories, initialLevel = "All" }: { categories: Category[]; initialLevel?: string }) {
+  const [activeLevel, setActiveLevel] = useState(initialLevel)
   const [search, setSearch] = useState("")
+
+  useEffect(() => {
+    if (initialLevel) {
+      setActiveLevel(initialLevel)
+    }
+  }, [initialLevel])
 
   const filtered = categories.filter((c) => {
     const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase())
-    return matchesSearch
+    if (!matchesSearch) return false
+
+    if (activeLevel === "All") return true
+
+    const name = c.name.toLowerCase()
+    const slug = c.slug.toLowerCase()
+
+    if (activeLevel === "SEE") {
+      return slug.includes("entrance") || name.includes("see")
+    }
+    if (activeLevel === "+2 Science") {
+      return name.includes("science") || slug.includes("science") || slug.includes("entrance")
+    }
+    if (activeLevel === "+2 Management") {
+      return name.includes("management") || slug.includes("management")
+    }
+    if (activeLevel === "Bachelors") {
+      return name.includes("science") || name.includes("management") || name.includes("medical") || slug.includes("entrance")
+    }
+    if (activeLevel === "Masters") {
+      return name.includes("science") || name.includes("management")
+    }
+    if (activeLevel === "Loksewa") {
+      return slug.includes("loksewa") || name.includes("loksewa")
+    }
+
+    return true
   })
 
   return (

@@ -13,6 +13,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
+import {
   UserCircle,
   Menu,
   GraduationCap,
@@ -40,51 +46,91 @@ const navLinks = [
   { label: "More", href: "#", icon: ChevronDown, hasDropdown: true },
 ]
 
+const dropdownItems: Record<string, { label: string; href: string }[]> = {
+  "Study Materials": [
+    { label: "SEE", href: "/explore?level=SEE" },
+    { label: "+2 Science", href: "/explore?level=%2B2%20Science" },
+    { label: "+2 Management", href: "/explore?level=%2B2%20Management" },
+    { label: "Bachelors", href: "/explore?level=Bachelors" },
+    { label: "Masters", href: "/explore?level=Masters" },
+    { label: "Loksewa", href: "/explore?level=Loksewa" },
+  ],
+  "More": [
+    { label: "About Us", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "FAQs", href: "/faqs" },
+  ]
+}
+
 export function NavbarClient({ user }: { user: User | null }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white dark:bg-background">
-      <div className="container mx-auto flex h-20 items-center px-4 md:px-6 max-w-7xl justify-between">
-        {/* Logo and Brand */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <Image 
-            src="/logo.png" 
-            alt="Hamro Learning Logo" 
-            width={48} 
-            height={48} 
-            className="object-contain"
-            unoptimized
-          />
-          <div className="text-xl font-bold flex items-center tracking-tight">
-            <span className="text-[#0f172a] dark:text-white">Hamro</span>
-            <span className="text-[#2563eb] dark:text-[#3b82f6] ml-1">Learning</span>
-          </div>
-        </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur-md supports-backdrop-filter:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center px-4 md:px-6 max-w-7xl justify-between">
+        {/* Left side: Logo & Brand */}
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <BookOpen className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-350 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-heading)" }}>
+              Hamro <span className="text-[#2563eb]">Learning</span>
+            </span>
+          </Link>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
-            return (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={cn(
-                  "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white",
-                  isActive && "text-[#2563eb] dark:text-white"
-                )}
-              >
-                {link.label}
-                {link.hasDropdown && <ChevronDown className="w-4 h-4 opacity-70" />}
-                {isActive && link.href === "/" && (
-                  <span className="absolute bottom-[-18px] left-4 right-4 h-[3px] bg-[#2563eb] rounded-full" />
-                )}
-              </Link>
-            )
-          })}
-        </nav>
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
+              const items = dropdownItems[link.label]
+
+              if (link.hasDropdown && items) {
+                return (
+                  <DropdownMenu key={link.label}>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className={cn(
+                          "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white outline-hidden cursor-pointer",
+                          isActive && "text-[#2563eb] dark:text-white"
+                        )}
+                      >
+                        {link.label}
+                        <ChevronDown className="w-4 h-4 opacity-70" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-48 bg-card border border-slate-200 dark:border-slate-800 rounded-xl p-1.5 shadow-xl">
+                      {items.map((item) => (
+                        <Link key={item.label} href={item.href} className="w-full">
+                          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm font-semibold rounded-lg hover:bg-muted text-foreground transition-all">
+                            {item.label}
+                          </DropdownMenuItem>
+                        </Link>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )
+              }
+
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={cn(
+                    "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white",
+                    isActive && "text-[#2563eb] dark:text-white"
+                  )}
+                >
+                  {link.label}
+                  {isActive && link.href === "/" && (
+                    <span className="absolute bottom-[-18px] left-4 right-4 h-[3px] bg-[#2563eb] rounded-full" />
+                  )}
+                </Link>
+              )
+            })}
+          </nav>
+        </div>
 
         {/* Right side: Search, Theme, Auth */}
         <div className="flex items-center gap-4">
