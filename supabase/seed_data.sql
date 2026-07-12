@@ -133,7 +133,7 @@ INSERT INTO public.courses (id, title, slug, description, cover_image_url, categ
 
 -- 11. Insert Lessons
 INSERT INTO public.lessons (id, course_id, title, video_url, order_index, description, duration_minutes) VALUES
-('66666666-l1l1-l1l1-l1l1-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Introduction to Python & Installation', 'kqtD5dpn9C8', 1, 'In this lesson, we will introduce Python programming language, explain why it is so popular, and show you step by step how to install Python and VS Code editor on Windows.', 12),
-('66666666-l2l2-l2l2-l2l2-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Python Variables, Data Types & Operations', 'mDKM-AlfBJs', 2, 'Learn about variables, comments, basic data types (integers, floats, strings, booleans), and arithmetic operations in Python.', 15),
-('66666666-l3l3-l3l3-l3l3-666666666666', '55555555-c1c1-c1c1-c1c1-555555555555', 'HTML Crash Course for Beginners', 'kUMe1FH4INY', 1, 'An introduction to web structure. Learn about HTML tags, attributes, lists, tables, and building your very first web page skeleton.', 22);
+('66666666-1111-1111-1111-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Introduction to Python & Installation', 'kqtD5dpn9C8', 1, 'In this lesson, we will introduce Python programming language, explain why it is so popular, and show you step by step how to install Python and VS Code editor on Windows.', 12),
+('66666666-2222-2222-2222-666666666666', '55555555-c0c0-c0c0-c0c0-555555555555', 'Python Variables, Data Types & Operations', 'mDKM-AlfBJs', 2, 'Learn about variables, comments, basic data types (integers, floats, strings, booleans), and arithmetic operations in Python.', 15),
+('66666666-3333-3333-3333-666666666666', '55555555-c1c1-c1c1-c1c1-555555555555', 'HTML Crash Course for Beginners', 'kUMe1FH4INY', 1, 'An introduction to web structure. Learn about HTML tags, attributes, lists, tables, and building your very first web page skeleton.', 22);
 
