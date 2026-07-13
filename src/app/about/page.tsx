@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { BookOpen, Users, Sparkles, Award, Globe, Heart } from "lucide-react"
+import { BookOpen, Users, Sparkles, Award, Globe, Heart, Code2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
@@ -132,6 +132,15 @@ export default function AboutPage() {
               <p className="text-muted-foreground leading-relaxed">
                 HamroLearning Nepal was born from a simple observation: Nepali students lack a centralized, modern platform to access quality study materials for their exams. Despite the abundance of knowledge available online, finding reliable, curriculum-aligned content for Nepali academic levels (SEE, +2, Bachelors, TU, KU, CTEVT) remained a challenge.
                 Founded in Kathmandu, our team of educators, engineers, and designers set out to build a platform that combines the best of traditional Nepali education with modern technology. Today, HamroLearning serves students across Nepal with AI-powered tools, comprehensive study libraries, and a supportive community — all for free.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+                <Code2 className="w-8 h-8 text-primary" /> Zaya Code Hub
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                HamroLearning is proudly designed, built, and maintained by <strong>Zaya Code Hub</strong>, the parent technology company. Zaya Code Hub is the driving force behind this platform, focusing on creating advanced digital solutions that foster learning, growth, and educational accessibility. By bridging modern technology with custom curriculum needs, Zaya Code Hub remains committed to empowering the next generation of learners in Nepal.
               </p>
             </section>
 

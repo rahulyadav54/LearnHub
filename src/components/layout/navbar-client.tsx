@@ -207,22 +207,12 @@ export function NavbarClient({ user }: { user: User | null }) {
 
                 {/* Mobile Nav Links */}
                 <nav className="flex-1 p-4 space-y-1">
-                  <Link
-                    href="/"
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
-                      pathname === "/" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    )}
-                  >
-                    <Home className="w-4 h-4" /> Home
-                  </Link>
                   {navLinks.map((link) => {
                     const Icon = link.icon
-                    const isActive = pathname === link.href || pathname.startsWith(link.href + "/")
+                    const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
                     return (
                       <Link
-                        key={link.href}
+                        key={link.label}
                         href={link.href}
                         onClick={() => setOpen(false)}
                         className={cn(
