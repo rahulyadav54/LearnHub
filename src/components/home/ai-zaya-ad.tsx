@@ -122,7 +122,7 @@ export function AIZayaAd() {
                 </svg>
                 <div className="text-left leading-none">
                   <span className="text-[10px] text-zinc-400 block font-medium uppercase tracking-wider mb-0.5">GET IT ON</span>
-                  <span className="text-lg font-bold font-jakarta block">Google Play</span>
+                  <span className="text-lg font-bold font-heading block">Google Play</span>
                 </div>
               </a>
               
