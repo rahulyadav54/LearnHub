@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button'
 import { Search, Calendar, Landmark, MapPin, Briefcase } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { ScholarshipBookmarkButton } from '@/components/scholarships/bookmark-button'
+import { fallbackScholarships } from '@/utils/scholarship-fallback'
 
 export default async function ScholarshipsPage({
   searchParams,
@@ -30,33 +31,57 @@ export default async function ScholarshipsPage({
   const query = typeof params.q === 'string' ? params.q : ''
   const typeFilter = typeof params.type === 'string' ? params.type : 'All'
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  // Base query
-  let supabaseQuery = supabase.from('scholarships').select('*').order('created_at', { ascending: false })
-
-  if (query) {
-    supabaseQuery = supabaseQuery.ilike('title', `%${query}%`)
-  }
-  
-  if (typeFilter && typeFilter !== 'All') {
-    supabaseQuery = supabaseQuery.eq('scholarship_type', typeFilter)
-  }
-
-  const { data: scholarships } = await supabaseQuery
-
-  // Fetch user bookmarks for optimistic UI
+  let scholarships: any[] = []
   let bookmarkedIds = new Set<string>()
-  if (user) {
-    const { data: bookmarks } = await supabase
-      .from('user_scholarship_bookmarks')
-      .select('scholarship_id')
-      .eq('user_id', user.id)
-    
-    if (bookmarks) {
-      bookmarkedIds = new Set(bookmarks.map(b => b.scholarship_id))
+
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // Base query
+    let supabaseQuery = supabase.from('scholarships').select('*').order('created_at', { ascending: false })
+
+    if (query) {
+      supabaseQuery = supabaseQuery.ilike('title', `%${query}%`)
     }
+    
+    if (typeFilter && typeFilter !== 'All') {
+      supabaseQuery = supabaseQuery.eq('scholarship_type', typeFilter)
+    }
+
+    const { data, error } = await supabaseQuery
+    
+    if (error || !data || data.length === 0) {
+      // Filter fallback data
+      scholarships = fallbackScholarships.filter(s => {
+        const matchesQuery = s.title.toLowerCase().includes(query.toLowerCase()) || 
+                             s.provider.toLowerCase().includes(query.toLowerCase())
+        const matchesType = typeFilter === 'All' || s.scholarship_type === typeFilter
+        return matchesQuery && matchesType
+      })
+    } else {
+      scholarships = data
+    }
+
+    // Fetch user bookmarks for optimistic UI
+    if (user) {
+      const { data: bookmarks } = await supabase
+        .from('user_scholarship_bookmarks')
+        .select('scholarship_id')
+        .eq('user_id', user.id)
+      
+      if (bookmarks) {
+        bookmarkedIds = new Set(bookmarks.map(b => b.scholarship_id))
+      }
+    }
+  } catch (err) {
+    console.error('Failed to fetch from Supabase, using fallback data:', err)
+    scholarships = fallbackScholarships.filter(s => {
+      const matchesQuery = s.title.toLowerCase().includes(query.toLowerCase()) || 
+                           s.provider.toLowerCase().includes(query.toLowerCase())
+      const matchesType = typeFilter === 'All' || s.scholarship_type === typeFilter
+      return matchesQuery && matchesType
+    })
   }
 
   const getIconForType = (type: string) => {

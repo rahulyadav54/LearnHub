@@ -8,18 +8,29 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { checkScholarshipBookmark } from '@/app/actions/scholarship-actions'
 import { ScholarshipBookmarkButton } from '@/components/scholarships/bookmark-button'
+import { fallbackScholarships } from '@/utils/scholarship-fallback'
 
 export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
   const resolvedParams = await params
-  const supabase = await createClient()
-  
-  const { data } = await supabase
-    .from('scholarships')
-    .select('title, provider, description, amount, deadline, scholarship_type')
-    .eq('id', resolvedParams.id)
-    .single()
+  let data: any = null
+
+  try {
+    const supabase = await createClient()
+    const { data: dbData } = await supabase
+      .from('scholarships')
+      .select('title, provider, description, amount, deadline, scholarship_type')
+      .eq('id', resolvedParams.id)
+      .single()
+    data = dbData
+  } catch (err) {
+    console.error('generateMetadata database error:', err)
+  }
+
+  if (!data) {
+    data = fallbackScholarships.find(s => s.id === resolvedParams.id)
+  }
 
   if (!data) return { title: 'Scholarship Not Found' }
 
@@ -47,17 +58,32 @@ export default async function SingleScholarshipPage({
   params: Promise<{ id: string }>
 }) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  let scholarship: any = null
 
-  const { data: scholarship } = await supabase
-    .from('scholarships')
-    .select('*')
-    .eq('id', resolvedParams.id)
-    .single()
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from('scholarships')
+      .select('*')
+      .eq('id', resolvedParams.id)
+      .single()
+    scholarship = data
+  } catch (err) {
+    console.error('SingleScholarshipPage database error:', err)
+  }
+
+  if (!scholarship) {
+    scholarship = fallbackScholarships.find(s => s.id === resolvedParams.id)
+  }
 
   if (!scholarship) notFound()
 
-  const isBookmarked = await checkScholarshipBookmark(scholarship.id)
+  let isBookmarked = false
+  try {
+    isBookmarked = await checkScholarshipBookmark(scholarship.id)
+  } catch (err) {
+    console.error('Failed to check bookmark:', err)
+  }
   
   const deadline = scholarship.deadline ? new Date(scholarship.deadline) : null
   const isValidDeadline = deadline && !isNaN(deadline.getTime())
