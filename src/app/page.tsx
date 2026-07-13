@@ -8,6 +8,7 @@ import { CategoryGrid } from '@/components/home/category-grid'
 import { AIBanner } from '@/components/home/ai-banner'
 import { ContentCarousel } from '@/components/home/content-carousel'
 import { Testimonials } from '@/components/home/testimonials'
+import { AIZayaAd } from '@/components/home/ai-zaya-ad'
 import { CTASection } from '@/components/home/cta-section'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -131,7 +132,10 @@ export default function Home() {
         {/* 7. Testimonials */}
         <Testimonials />
 
-        {/* 8. CTA Section */}
+        {/* 8. AI ZAYA Mobile App Ad */}
+        <AIZayaAd />
+
+        {/* 9. CTA Section */}
         <CTASection />
       </div>
     </>
