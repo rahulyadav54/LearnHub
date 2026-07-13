@@ -14,11 +14,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Home | HamroLearning Nepal',
-  description: 'Discover Nepal\'s #1 education platform for SEE, +2, Bachelors, and Loksewa. Access free study notes, question papers, mock tests, AI Tutor, scholarships, and MCQ practice — all in one place.',
-  keywords: ['free study notes Nepal', 'SEE preparation Nepal', '+2 study materials Nepal', 'mock tests Nepal', 'AI tutor Nepal', 'scholarships Nepal', 'question papers Nepal', 'MCQ practice Nepal', 'Loksewa preparation Nepal', 'Bachelor notes Nepal', 'online learning Nepal'],
+  description: 'Discover Nepal\'s #1 education platform for SEE, +2, Bachelors, and Loksewa. Access free study notes, question papers, mock tests, AI Tutor, scholarships, MCQ practice, and download the new AI ZAYA mobile app — all in one place.',
+  keywords: ['free study notes Nepal', 'SEE preparation Nepal', '+2 study materials Nepal', 'mock tests Nepal', 'AI tutor Nepal', 'scholarships Nepal', 'question papers Nepal', 'MCQ practice Nepal', 'Loksewa preparation Nepal', 'Bachelor notes Nepal', 'online learning Nepal', 'AI ZAYA', 'AI ZAYA app', 'AI ZAYA play store', 'AI ZAYA download', 'Zaya AI study companion', 'HamroLearning AI ZAYA'],
   openGraph: {
     title: 'HamroLearning Nepal | #1 Education Platform for Nepali Students',
-    description: 'Free study notes, question papers, mock tests, AI Tutor, scholarships, and career guidance for SEE, +2, Bachelors, and Loksewa aspirants across Nepal.',
+    description: 'Free study notes, question papers, mock tests, AI Tutor, scholarships, and download the new AI ZAYA mobile app for SEE, +2, Bachelors, and Loksewa aspirants.',
     url: 'https://www.hamrolearning.com',
     siteName: 'HamroLearning Nepal',
     images: [
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'HamroLearning Nepal | AI-Powered Education Platform',
-    description: 'Nepal\'s most modern education platform for SEE, +2, Bachelors, and Loksewa aspirants. Free study materials, mock tests, and AI Tutor.',
+    description: 'Nepal\'s most modern education platform for SEE, +2, Bachelors, and Loksewa. Access study materials, mock tests, and download the AI ZAYA app.',
   },
   alternates: {
     canonical: '/',
@@ -51,6 +51,26 @@ const organizationSchema = {
     target: 'https://www.hamrolearning.com/search?q={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
+}
+
+const aiZayaAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'AI ZAYA',
+  operatingSystem: 'Android',
+  applicationCategory: 'EducationalApplication',
+  installUrl: 'https://play.google.com/store/apps/details?id=com.zayaai.app&pcampaignid=web_share',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    ratingCount: '120',
+  },
+  description: 'AI ZAYA is an AI-powered assistant and study companion designed for students, teachers, professionals, and lifelong learners. Features include an AI chat assistant, study tools, brain games, and productivity tools.',
 }
 
 async function CategoriesData() {
@@ -103,6 +123,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aiZayaAppSchema) }}
       />
       <div className="flex flex-col min-h-screen">
         {/* 1. Hero */}

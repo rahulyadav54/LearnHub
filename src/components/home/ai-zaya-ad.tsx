@@ -107,6 +107,7 @@ export function AIZayaAd() {
               className="flex flex-col sm:flex-row items-center gap-6 pt-4"
             >
               <a
+                id="ai-zaya-playstore-btn"
                 href="https://play.google.com/store/apps/details?id=com.zayaai.app&pcampaignid=web_share"
                 target="_blank"
                 rel="noopener noreferrer"
