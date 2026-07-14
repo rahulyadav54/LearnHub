@@ -33,10 +33,12 @@ export default async function ScholarshipsPage({
 
   let scholarships: any[] = []
   let bookmarkedIds = new Set<string>()
+  let user: any = null
 
   try {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user: currentUser } } = await supabase.auth.getUser()
+    user = currentUser
 
     // Base query
     let supabaseQuery = supabase.from('scholarships').select('*').order('created_at', { ascending: false })
@@ -170,7 +172,7 @@ export default async function ScholarshipsPage({
                           <CardTitle className="text-xl group-hover:text-primary transition-colors">{scholarship.title}</CardTitle>
                           <div className="text-sm font-medium text-muted-foreground mt-1">Provided by {scholarship.provider}</div>
                         </div>
-                        <div onClick={(e) => e.preventDefault()}>
+                        <div>
                            {user && <ScholarshipBookmarkButton scholarshipId={scholarship.id} initialBookmarked={isBookmarked} />}
                         </div>
                       </div>

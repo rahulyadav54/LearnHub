@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
+import { Preloader } from "@/components/ui/preloader"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -139,6 +140,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Preloader />
           <Navbar />
           <main className="flex-1 flex flex-col">
             {children}

@@ -17,6 +17,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu"
 import {
   UserCircle,
@@ -63,9 +66,21 @@ const dropdownItems: Record<string, { label: string; href: string }[]> = {
   ]
 }
 
+const seeProvinces = [
+  { label: "Koshi Province", href: "/explore?level=SEE&province=Koshi" },
+  { label: "Madhesh Province", href: "/explore?level=SEE&province=Madhesh" },
+  { label: "Bagmati Province", href: "/explore?level=SEE&province=Bagmati" },
+  { label: "Gandaki Province", href: "/explore?level=SEE&province=Gandaki" },
+  { label: "Lumbini Province", href: "/explore?level=SEE&province=Lumbini" },
+  { label: "Karnali Province", href: "/explore?level=SEE&province=Karnali" },
+  { label: "Sudurpashchim Province", href: "/explore?level=SEE&province=Sudurpashchim" },
+]
+
 export function NavbarClient({ user }: { user: User | null }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [mobileStudyOpen, setMobileStudyOpen] = useState(false)
+  const [mobileSeeOpen, setMobileSeeOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur-md supports-backdrop-filter:bg-background/60">
@@ -96,25 +111,44 @@ export function NavbarClient({ user }: { user: User | null }) {
               if (link.hasDropdown && items) {
                 return (
                   <DropdownMenu key={link.label}>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        className={cn(
-                          "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white outline-hidden cursor-pointer",
-                          isActive && "text-[#2563eb] dark:text-white"
-                        )}
-                      >
-                        {link.label}
-                        <ChevronDown className="w-4 h-4 opacity-70" />
-                      </button>
+                    <DropdownMenuTrigger
+                      className={cn(
+                        "relative px-4 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1 text-[#334155] dark:text-[#94a3b8] hover:text-[#2563eb] dark:hover:text-white outline-hidden cursor-pointer",
+                        isActive && "text-[#2563eb] dark:text-white"
+                      )}
+                    >
+                      {link.label}
+                      <ChevronDown className="w-4 h-4 opacity-70" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-48 bg-card border border-slate-200 dark:border-slate-800 rounded-xl p-1.5 shadow-xl">
-                      {items.map((item) => (
-                        <Link key={item.label} href={item.href} className="w-full">
-                          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm font-semibold rounded-lg hover:bg-muted text-foreground transition-all">
-                            {item.label}
-                          </DropdownMenuItem>
-                        </Link>
-                      ))}
+                      {items.map((item) => {
+                        if (item.label === "SEE") {
+                          return (
+                            <DropdownMenuSub key={item.label}>
+                              <DropdownMenuSubTrigger className="cursor-pointer px-3 py-2 text-sm font-semibold rounded-lg hover:bg-muted text-foreground transition-all flex items-center justify-between w-full">
+                                {item.label}
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuSubContent className="w-56 bg-card border border-slate-200 dark:border-slate-800 rounded-xl p-1.5 shadow-xl">
+                                {seeProvinces.map((prov) => (
+                                  <Link key={prov.label} href={prov.href} className="w-full">
+                                    <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm font-semibold rounded-lg hover:bg-muted text-foreground transition-all">
+                                      {prov.label}
+                                    </DropdownMenuItem>
+                                  </Link>
+                                ))}
+                              </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                          )
+                        }
+
+                        return (
+                          <Link key={item.label} href={item.href} className="w-full">
+                            <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm font-semibold rounded-lg hover:bg-muted text-foreground transition-all">
+                              {item.label}
+                            </DropdownMenuItem>
+                          </Link>
+                        )
+                      })}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 )
@@ -180,10 +214,12 @@ export function NavbarClient({ user }: { user: User | null }) {
 
           {/* Mobile Hamburger */}
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="w-5 h-5" />
-              </Button>
+            <SheetTrigger
+              render={
+                <Button variant="ghost" size="icon" className="lg:hidden" />
+              }
+            >
+              <Menu className="w-5 h-5" />
             </SheetTrigger>
             <SheetContent side="left" className="w-80 p-0">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
@@ -206,10 +242,88 @@ export function NavbarClient({ user }: { user: User | null }) {
                 </div>
 
                 {/* Mobile Nav Links */}
-                <nav className="flex-1 p-4 space-y-1">
+                <nav className="flex-1 p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-14rem)]">
                   {navLinks.map((link) => {
                     const Icon = link.icon
                     const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
+
+                    if (link.hasDropdown && link.label === "Study Materials") {
+                      const items = dropdownItems[link.label]
+                      return (
+                        <div key={link.label} className="space-y-1">
+                          <button
+                            onClick={() => setMobileStudyOpen(!mobileStudyOpen)}
+                            className={cn(
+                              "flex items-center justify-between w-full px-4 py-3 rounded-xl text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer",
+                              mobileStudyOpen && "bg-muted text-foreground"
+                            )}
+                          >
+                            <span className="flex items-center gap-3">
+                              <Icon className="w-4 h-4" />
+                              {link.label}
+                            </span>
+                            <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", mobileStudyOpen && "rotate-180")} />
+                          </button>
+
+                          {mobileStudyOpen && items && (
+                            <div className="pl-6 space-y-1 mt-1 border-l-2 border-slate-100 dark:border-slate-800 ml-6">
+                              {items.map((item) => {
+                                if (item.label === "SEE") {
+                                  return (
+                                    <div key={item.label} className="space-y-1">
+                                      <button
+                                        onClick={() => setMobileSeeOpen(!mobileSeeOpen)}
+                                        className={cn(
+                                          "flex items-center justify-between w-full px-4 py-2 rounded-lg text-sm font-semibold transition-colors text-[#334155] dark:text-[#94a3b8] hover:bg-muted/50 hover:text-foreground cursor-pointer",
+                                          mobileSeeOpen && "text-primary dark:text-white"
+                                        )}
+                                      >
+                                        <span>{item.label}</span>
+                                        <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", mobileSeeOpen && "rotate-180")} />
+                                      </button>
+
+                                      {mobileSeeOpen && (
+                                        <div className="pl-4 space-y-1 mt-1 border-l border-slate-100 dark:border-slate-800 ml-4">
+                                          {seeProvinces.map((prov) => (
+                                            <Link
+                                              key={prov.label}
+                                              href={prov.href}
+                                              onClick={() => {
+                                                setOpen(false)
+                                                setMobileStudyOpen(false)
+                                                setMobileSeeOpen(false)
+                                              }}
+                                              className="block px-4 py-2 rounded-md text-xs font-semibold text-[#475569] dark:text-[#94a3b8] hover:bg-muted hover:text-foreground transition-all"
+                                            >
+                                              {prov.label}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )
+                                }
+
+                                return (
+                                  <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    onClick={() => {
+                                      setOpen(false)
+                                      setMobileStudyOpen(false)
+                                    }}
+                                    className="block px-4 py-2 rounded-lg text-sm font-semibold text-[#334155] dark:text-[#94a3b8] hover:bg-muted/50 hover:text-foreground transition-all"
+                                  >
+                                    {item.label}
+                                  </Link>
+                                )
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    }
+
                     return (
                       <Link
                         key={link.label}
